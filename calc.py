@@ -59,9 +59,13 @@ def run_calc():
     if not path.exists(target_dir): makedirs(target_dir)
     
     for vf in VFS:
+      print(f"CALC: Calculating {fn.__name__} for vf={vf}")
+      
       _, X, Y, Z = calc(fn, vf)
       
       output = path.join(target_dir, str(vf) + ".csv")
+
+      print(f"CALC: Calculation finished. Saving...")
       save_calc_csv(output , X, Y, Z)
 
 if __name__ == "__main__":
