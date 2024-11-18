@@ -58,19 +58,11 @@ def run_calc():
     # Create target dir if not exists;
     if not path.exists(target_dir): makedirs(target_dir)
     
-    for vf in [3]:
+    for vf in VFS:
       _, X, Y, Z = calc(fn, vf)
       
       output = path.join(target_dir, str(vf) + ".csv")
       save_calc_csv(output , X, Y, Z)
-    
-
-
-
-def main():
-    # Run calculations
-    run_calc()
-
 
 if __name__ == "__main__":
-    main()
+    run_calc()
