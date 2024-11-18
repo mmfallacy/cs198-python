@@ -1,8 +1,7 @@
 import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib import colors as pltcolors
-from matplotlib.cm import ScalarMappable
-import math
+from lib import MTTC
+
+
 X_LIM, Y_LIM, GRAN = 10, 30, 300
 
 # Calculate function
@@ -26,8 +25,6 @@ def calc(fn, vf, max_Z=float('+inf')):
       # For row i and col j, get corresponding X and Y value
 
       x,y = X[j], Y[i]
-      # Unit conversion
-      xp, yp = kpsqh2mpsqs(x), kph2mps(y)
       # Calculate warning distance given y (vrel) and vf
       wd = fn(y, vf)
       # If warning distance is impossible, set z to np.nan. Otherwise get MTTC
