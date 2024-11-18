@@ -1,8 +1,13 @@
 import numpy as np
-from lib import MTTC
+from lib import MTTC, bellarusso, hirstgraham, honda
 
+from os import path, makedirs
+
+from persist import save_calc_csv
 
 X_LIM, Y_LIM, GRAN = 10, 30, 300
+
+VFS = [3, 6, 12, 18, 36]
 
 # Calculate function
 def calc(fn, vf, max_Z=float('+inf')):
@@ -17,7 +22,7 @@ def calc(fn, vf, max_Z=float('+inf')):
   Z_max = float('-inf')
 
   # Observe that Z is a 2d-array. Despite being a 2D array, its columns and rows directly translate to the X and Y axes shown in the plot.
-  # Refer to https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.contourf.html.
+  # refer to https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.contourf.html.
   # That is, X pertains to the contourf's columns (hence why it is retrieved using j).
   # and consequently, Y pertains to the contourf's rows (hence why it is retrieved using i).
   for i in range(Z.shape[0]):
@@ -46,8 +51,25 @@ def calc(fn, vf, max_Z=float('+inf')):
   # Return maximum Z, linspace X and Y, grid Z
   return Z_max, X, Y, Z
 
+def run_calc():
+  for fn in [honda, hirstgraham, bellarusso]:
+    target_dir = path.join("calculated", fn.__name__)
+
+    # Create target dir if not exists;
+    if not path.exists(target_dir): makedirs(target_dir)
+    
+    for vf in [3]:
+      _, X, Y, Z = calc(fn, vf)
+      
+      output = path.join(target_dir, str(vf) + ".csv")
+      save_calc_csv(output , X, Y, Z)
+    
+
+
+
 def main():
-    print("Hello from cs198-python!")
+    # Run calculations
+    run_calc()
 
 
 if __name__ == "__main__":
