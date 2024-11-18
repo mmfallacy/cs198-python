@@ -1,3 +1,4 @@
+set shell := ["powershell.exe", "-c"]
 
 clean:
     rm -r calculated\*
