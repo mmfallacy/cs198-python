@@ -1,13 +1,10 @@
 import numpy as np
-from lib import MTTC, bellarusso, hirstgraham, honda
+from const import ALGORITHMS, GRAN, VFS, X_LIM, Y_LIM
+from lib import MTTC
 
 from os import path, makedirs
 
 from persist import save_points_csv
-
-X_LIM, Y_LIM, GRAN = 10, 30, 300
-
-VFS = [3, 6, 12, 18, 36]
 
 def calc(fn, vf):
   # Relative Acceleration
@@ -45,7 +42,7 @@ def calc(fn, vf):
   return Z_max, *zip(*Z)
 
 def run_calc():
-  for fn in [honda, hirstgraham, bellarusso]:
+  for fn in ALGORITHMS:
     target_dir = path.join("calculated", fn.__name__)
 
     # Create target dir if not exists;
