@@ -3,14 +3,14 @@ from lib import MTTC, bellarusso, hirstgraham, honda
 
 from os import path, makedirs
 
-from persist import save_calc_csv
+from persist import save_calc_csv, save_points_csv
 
 X_LIM, Y_LIM, GRAN = 10, 30, 300
 
 VFS = [3, 6, 12, 18, 36]
 
 # Calculate function
-def calc(fn, vf, max_Z=float('+inf')):
+def old_calc(fn, vf):
   # Relative Acceleration
   X = np.linspace(-X_LIM, X_LIM, GRAN)
   # Relative Velocity
@@ -51,6 +51,41 @@ def calc(fn, vf, max_Z=float('+inf')):
   # Return maximum Z, linspace X and Y, grid Z
   return Z_max, X, Y, Z
 
+def calc(fn, vf):
+  # Relative Acceleration
+  X = np.linspace(-X_LIM, X_LIM, GRAN)
+  # Relative Velocity
+  Y = np.linspace(-Y_LIM, Y_LIM, GRAN)
+  # Create list to hold Z.
+  Z = []
+
+  # Keep track of maximum Z value
+  Z_max = float('-inf')
+
+  # For each x in X
+  for x in X:
+    # For each y in Y
+    for y in Y:
+      # Calculate warning distance given y (vrel) and vf
+      wd = fn(y, vf)
+
+      # Set z to np.nan if warning distance is impossible. Otherwise get MTTC
+      if(wd<0): z = np.nan
+      else: z = MTTC(x,y,wd)
+
+      # Discard nan or negative vl case.
+      # y (vrel) > vf => vf-vl > vf => -vl > 0 => vl < 0.
+      # negative vl is out of our scope.
+      if(y > vf): z = np.nan
+
+      # Update maximum Z value only if z is not np.nan
+      if(not np.isnan(z) and Z_max < z): Z_max = z
+      # Place computed Z in the list.
+      Z.append((x,y,z))
+  
+  # Return maximum Z, linspace X and Y, list Z
+  return Z_max, *zip(*Z)
+
 def run_calc():
   for fn in [honda, hirstgraham, bellarusso]:
     target_dir = path.join("calculated", fn.__name__)
@@ -66,7 +101,7 @@ def run_calc():
       output = path.join(target_dir, str(vf) + ".csv")
 
       print(f"CALC: Calculation finished. Saving...")
-      save_calc_csv(output , X, Y, Z)
+      save_points_csv(output , X, Y, Z)
 
 if __name__ == "__main__":
     run_calc()
