@@ -39,6 +39,7 @@ def save_points_csv(target, X, Y, Z):
     # Assertions:
     assert len(X) == len(Y) == len(Z)
 
+    # Open with exclusive creation; fail if already exists
     with open(target, "x") as out:
         for i in range(0, len(X)):
             out.write(f"{X[i]},{Y[i]},{Z[i]}\n")
