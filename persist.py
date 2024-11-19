@@ -75,3 +75,13 @@ def save_points_csv(target, X, Y, Z):
         for i in range(0, len(X)):
             out.write(f"{X[i]},{Y[i]},{Z[i]}\n")
         
+def load_points_csv(target):
+    X, Y, Z = [], [], []
+    with open(target) as inp:
+        while line:=inp.readline().rstrip('\n'):
+            x,y,z = line.split(',')
+            X.append(x)
+            Y.append(y)
+            Z.append(z)
+    
+    return asarray(X, dtype=float), asarray(Y, dtype=float), asarray(Z, dtype=float)
