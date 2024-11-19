@@ -15,7 +15,16 @@ purge-cleaned:
 
 [confirm]
 [group('purge')]
-purge: purge-calc purge-cleaned
+purge-assets-cmpcalc:
+    rm -r assets\calculated\*
+
+[confirm]
+[group('purge')]
+purge-assets: purge-assets-cmpcalc
+
+[confirm]
+[group('purge')]
+purge: purge-calc purge-cleaned purge-assets
 
 calc:
     uv run calc.py
