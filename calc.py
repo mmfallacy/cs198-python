@@ -49,11 +49,17 @@ def run_calc():
     if not path.exists(target_dir): makedirs(target_dir)
     
     for vf in VFS:
+
+      output = path.join(target_dir, str(vf) + ".csv")
+      
+      if path.exists(output): 
+        print(f"CALC: {output} already exists skipping.")
+        continue
+
       print(f"CALC: Calculating {fn.__name__} for vf={vf}")
       
       _, X, Y, Z = calc(fn, vf)
       
-      output = path.join(target_dir, str(vf) + ".csv")
 
       print(f"CALC: Calculation finished. Saving...")
       save_points_csv(output , X, Y, Z)
