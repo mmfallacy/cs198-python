@@ -32,6 +32,9 @@ calc:
 clean:
     uv run clean.py
 
+compare-vf: calc
+    uv run compare_per_vf.py
+
 [group('repeat')]
 recalc: purge-calc calc
 
