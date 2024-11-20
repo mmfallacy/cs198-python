@@ -39,13 +39,23 @@ def kph2mps(kph):
 # Conversion of kilometers per sq hour to meters per sq second
 def kpsqh2mpsqs(kpsqh):
   return kpsqh / 12960
-  
+
+# Given an np.array Z and a scale, clip/impute the outliers by using the inter-quartile range
 def iqrfilter(Z, scale=1.5):
-  q1, q3 = np.percentile(Z, [25,75])
+  q1, q3 = np.nanpercentile(Z, [25,75])
 
   iqr = q3-q1
 
   min = q1 - scale * iqr
   max = q3 + scale * iqr
 
+  return np.clip(Z, min, max)
+
+# Given an np.array Z and a threshold, clip/impute the outliers to the z=+/-3
+def zscorefilter(Z, threshold=3):
+  mean = np.nanmean(Z)
+  std = np.nanstd(Z)
+
+  min = mean - threshold * std
+  max = mean + threshold * std
   return np.clip(Z, min, max)
