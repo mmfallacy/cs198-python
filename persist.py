@@ -30,7 +30,7 @@ def load_simulated(target, SIMULATION_TPS_RUN=120):
         
         Z["first_mttc"].append(row["state_first_mttc"])
         Z["ave_headway"].append(row["state_ave_headway"])
-        Z["tick"].append(row["state_tick"] / SIMULATION_TPS_RUN)
+        Z["tick"].append(row["state_tick"])
         Z["ave_vx"].append(row["state_FV_ave_vx"])
         
     return X, Y, Z
