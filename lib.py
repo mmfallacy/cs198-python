@@ -39,3 +39,13 @@ def kph2mps(kph):
 # Conversion of kilometers per sq hour to meters per sq second
 def kpsqh2mpsqs(kpsqh):
   return kpsqh / 12960
+  
+def iqrfilter(Z, scale=1.5):
+  q1, q3 = np.percentile(Z, [25,75])
+
+  iqr = q3-q1
+
+  min = q1 - scale * iqr
+  max = q3 + scale * iqr
+
+  return np.clip(Z, min, max)
