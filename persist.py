@@ -21,7 +21,7 @@ def load_simulated(target, SIMULATION_TPS_RUN=120):
 
     for row in rows:
         # Skip colliding cases
-        if (row["state_collision"] == "true"): continue
+        if (row["state_collision"] == True): continue
         # Skip impossible cases
         if (row["state_first_mttc"] <= 0): continue
         
