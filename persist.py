@@ -1,7 +1,7 @@
 from numpy import asarray
 import json
 
-def load_simulated(target, SIMULATION_TPS_RUN=120):
+def load_simulated(target):
     # Note: SIMULATION_TPS_RUN should be set equal to the simulator's TPS parameter.
     # By default the simulator runs the simulations in 120 ticks per second.
 
@@ -24,6 +24,8 @@ def load_simulated(target, SIMULATION_TPS_RUN=120):
         if (row["state_collision"] == True): continue
         # Skip impossible cases
         if (row["state_first_mttc"] <= 0): continue
+        # Skip cases where FV average velocity went negative
+        if (row["state_FV_ave_vx"] < 0): continue
         
         Y.append(row["params_FV_vx"] - row["params_LV_vx"])
         X.append(row["params_FV_ax"] - row["params_LV_ax"])
