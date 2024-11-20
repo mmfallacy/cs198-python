@@ -5,7 +5,12 @@ from matplotlib import colors as pltcolors
 from matplotlib.cm import ScalarMappable
 
 from const import ALGORITHMS, VFS, X_LIM, Y_LIM
+from lib import iqrfilter, zscorefilter
 from persist import load_points_csv
+
+def clip(XYZ, filter=iqrfilter):
+    X, Y, Z = XYZ
+    return X, Y, filter(Z)
 
 def add_plot(fig, ax, X,Y,_Z, max, cbar=False):
     Z = np.clip(_Z, None, max)
@@ -22,7 +27,9 @@ def add_plot(fig, ax, X,Y,_Z, max, cbar=False):
         dist = np.linalg.norm(np.vstack([X - x, Y - y]), axis=0)
         idx = np.argmin(dist)
         z = Z[idx]
-        return 'x={x:.5f}  y={y:.5f}  z={z:.5f}'.format(x=x, y=y, z=z)
+        xp = X[idx]
+        yp = Y[idx]
+        return 'x={x:.5f}  y={y:.5f}  z={z:.5f}'.format(x=xp, y=yp, z=z)
     ax.format_coord = fmt
 
 
@@ -37,7 +44,7 @@ def compare_via_vf():
             # Load points
             XYZ = load_points_csv(f"calculated/{algo.__name__}/{vf}.csv")
             # Create plot (scatter plot, since points are loaded)
-            add_plot(fig, axs[i], *XYZ, 7)
+            add_plot(fig, axs[i], *clip(XYZ), 7)
 
             # Differentiate subplots based on algo name
             axs[i].set_title(algo.__name__)
@@ -80,7 +87,7 @@ def compare_simulated():
         fig, axs = plt.subplots(1,5, figsize=(20,5))
 
         for i, (label, xyz) in enumerate(data.items()):
-            add_plot(fig, axs[i], *xyz, None, cbar=True)
+            add_plot(fig, axs[i], *clip(xyz), None, cbar=True)
             axs[i].set_title(label)
             axs[i].set_xlabel("Relative acceleration dA (af-al)")
             axs[i].set_facecolor("black")
@@ -107,11 +114,8 @@ def compare_per_metric():
         data = {}
 
         for algo in ALGORITHMS:
-            X, Y, _Z = load_points_csv(F"cleaned/{algo.__name__}/{metric}.csv")
-            
-            if(metric=="first_mttc"): Z = np.clip(_Z, None, 7)
-            else: Z = _Z
-            
+            X, Y, Z = clip(load_points_csv(F"cleaned/{algo.__name__}/{metric}.csv"))
+
             data[algo.__name__] = (X, Y, Z)
             metric_max = max(metric_max, np.nanmax(Z))
             
