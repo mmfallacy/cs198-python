@@ -76,23 +76,24 @@ def main():
     if includesAny(args, "-s", "--show-plot"):
         shouldPlot = True
 
-    if "calc" in args:
+    if includesAny(args, "calc", "all"):
         if shouldPurge: purge_calc()
         if shouldRun: calc()
 
-    if "clean" in args:
+    if includesAny(args, "clean", "all"):
         if shouldPurge: purge_cleaned()
         if shouldRun: clean()
         
-    if "cmp=vf" in args:
+ 
+    if includesAny(args, "cmp=vf", "all", "cmp"):
         if shouldPurge: purge_cmp_per_vf()
         if shouldRun: cmp_per_vf(show=shouldPlot)
     
-    if "cmp=metric" in args:
+    if includesAny(args, "cmp=metric", "all", "cmp"):
         if shouldPurge: purge_cmp_per_metric()
         if shouldRun: cmp_per_metric(show=shouldPlot)
         
-    if "cmp=sim" in args:
+    if includesAny(args, "cmp=sim", "all", "cmp"):
         if shouldPurge: purge_cmp_sim()
         if shouldRun: cmp_sim(show=shouldPlot)
 
