@@ -27,7 +27,7 @@ def purge_cmp_per_metric():
     return remove("./assets/metric")
 
 def purge_cmp_sim():
-    return remove("./assets/algo")
+    return remove("./assets/sim")
 
 # Runs
 def calc():
