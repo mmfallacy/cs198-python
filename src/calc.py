@@ -1,10 +1,9 @@
 import numpy as np
-from const import ALGORITHMS, GRAN, VFS, X_LIM, Y_LIM
-from lib import MTTC
-
 from os import path, makedirs
 
-from persist import save_points_csv
+from src.const import ALGORITHMS, GRAN, VFS, X_LIM, Y_LIM
+from src.lib import MTTC
+from src.persist import save_points_csv
 
 def calc(fn, vf):
   # Relative Acceleration
@@ -64,5 +63,4 @@ def run_calc():
       print(f"CALC: Calculation finished. Saving...")
       save_points_csv(output , X, Y, Z)
 
-if __name__ == "__main__":
-    run_calc()
+if __name__ == "__main__": run_calc()

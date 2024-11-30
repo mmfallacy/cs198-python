@@ -16,8 +16,10 @@ def save_cleaned_simulated(target, SIMULATION_TPS_RUN=120):
         out = path.join(target_dir, k + ".csv")
         save_points_csv(out, X, Y, v)
     
-if __name__ == "__main__":
+def run_clean():
     save_cleaned_simulated("simulated/honda.json")
     save_cleaned_simulated("simulated/hirstgraham.json")
     save_cleaned_simulated("simulated/onecar.json")
     save_cleaned_simulated("simulated/bellarusso.json")
+    
+if __name__ == "__main__": run_clean()
