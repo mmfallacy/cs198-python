@@ -43,9 +43,9 @@ def compare_simulated():
 
 def run_cmp_sim(show=False):
     for algo, fig in compare_simulated():
-        out_dir = path.join("assets", "simulated")
+        out_dir = path.join("assets", "sim")
         makedirs(out_dir, exist_ok=True)
-        out = path.join(out_dir, "algo=" + str(algo) + ".png")
+        out = path.join(out_dir, str(algo) + ".png")
         fig.savefig(out)
         if show: plt.show()
 

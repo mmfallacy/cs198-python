@@ -46,7 +46,9 @@ def cmp_per_vf(show=False):
     return run_cmp_per_vf(show)
     
 def cmp_per_metric(show=False):
-    pass
+    from src.compare_per_metric import run_cmp_per_metric
+    logger("Plotting data for comparison per metric...")
+    return run_cmp_per_metric(show)
 
 def cmp_sim(show=False):
     from src.compare_simulated import run_cmp_sim
@@ -86,6 +88,10 @@ def main():
         if shouldPurge: purge_cmp_per_vf()
         if shouldRun: cmp_per_vf(show=shouldPlot)
     
+    if "cmp=metric" in args:
+        if shouldPurge: purge_cmp_per_metric()
+        if shouldRun: cmp_per_metric(show=shouldPlot)
+        
     if "cmp=sim" in args:
         if shouldPurge: purge_cmp_sim()
         if shouldRun: cmp_sim(show=shouldPlot)

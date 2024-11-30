@@ -46,7 +46,7 @@ def run_cmp_per_vf(show=False):
     for vf, fig in compare_via_vf():
         out_dir = path.join("assets", "vf")
         makedirs(out_dir, exist_ok=True)
-        out = path.join(out_dir, "vf=" + str(vf) + ".png")
+        out = path.join(out_dir, str(vf) + ".png")
         fig.savefig(out)
         if show: plt.show()
 
