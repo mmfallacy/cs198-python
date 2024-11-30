@@ -1,8 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib import colors as pltcolors
-from matplotlib.cm import ScalarMappable
-import math
 
 # Honda function. Reliant on vrel only
 def honda(vrel, vf):
