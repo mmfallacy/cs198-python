@@ -32,40 +32,6 @@ def add_plot(fig, ax, X,Y,_Z, max, cbar=False):
         return 'x={x:.5f}  y={y:.5f}  z={z:.5f}'.format(x=xp, y=yp, z=z)
     ax.format_coord = fmt
       
-def compare_simulated():
-    # Compare algorithms as such:
-    # Calculated (vf=36) | Simulated: first_mttc, ave_headway, ave_vx, ticks
-
-    for algo in ALGORITHMS:
-        data = {
-            "calculated": list(load_points_csv(f"calculated/{algo.__name__}/36.csv")),
-            "first_mttc": list(load_points_csv(f"cleaned/{algo.__name__}/first_mttc.csv")),
-            "ave_headway": load_points_csv(f"cleaned/{algo.__name__}/ave_headway.csv"),
-            "ave_vx": load_points_csv(f"cleaned/{algo.__name__}/ave_vx.csv"),
-            "ticks" :load_points_csv(f"cleaned/{algo.__name__}/tick.csv")
-        }
-        
-        # Clamping:
-        data["calculated"][2] = np.clip(data["calculated"][2], None, 7)
-        data["first_mttc"][2] = np.clip(data["first_mttc"][2], None, 7)
-
-        fig, axs = plt.subplots(1,5, figsize=(20,5))
-
-        for i, (label, xyz) in enumerate(data.items()):
-            add_plot(fig, axs[i], *clip(xyz), None, cbar=True)
-            axs[i].set_title(label)
-            axs[i].set_xlabel("Relative acceleration dA (af-al)")
-            axs[i].set_facecolor("black")
-        
-        # Set only one y axis label for all plots
-        axs[0].set_ylabel("Relative velocities dV (vf-vl)")
-
-        # Differentiate figures based on vf
-        fig.suptitle(algo.__name__)
-
-        fig.tight_layout()
-        yield algo.__name__, fig
-
 def compare_per_metric():
     
     METRICS = ["first_mttc", "ave_headway", "ave_vx", "tick"]
