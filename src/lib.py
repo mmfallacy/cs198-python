@@ -16,8 +16,8 @@ def bellarusso(vrel,vf):
 def MTTC(dA, dV, wd):
     # 1/2dAt^2 + dVt -wd
     roots = np.roots([1/2 * dA, dV, -1 * wd])
-    # Only positive real roots
-    posreals = roots[(roots>0) & np.isreal(roots)]
+    # Only nonnegative real roots
+    posreals = roots[(roots>=0) & np.isreal(roots)]
     if(len(posreals) < 1): return np.nan # No MTTC/ Impossible to collide.
     # Return minimum positive real root
     return np.min(posreals)
