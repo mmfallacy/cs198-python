@@ -1,5 +1,5 @@
 from os import makedirs, path
-from persist import load_simulated, save_points_csv
+from src.persist import load_simulated, save_points_csv
 
 
 def save_cleaned_simulated(target, SIMULATION_TPS_RUN=120):
