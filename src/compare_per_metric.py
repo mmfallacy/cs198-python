@@ -7,7 +7,7 @@ import numpy as np
 
 from src.const import ALGORITHMS
 from src.persist import load_points_csv
-from src.plot import add_plot, clip
+from src.plot import add_plot, add_plot_norm, clip
 
 def compare_per_metric():
     
@@ -28,10 +28,11 @@ def compare_per_metric():
             metric_max = max(metric_max, np.nanmax(Z))
             
         # Create and add color bar based on max
-        sm = ScalarMappable(cmap='RdYlGn', norm=Normalize(vmin=0, vmax=metric_max))
+        norm = Normalize(vmin=0, vmax=metric_max)
+        sm = ScalarMappable(cmap='RdYlGn', norm=norm)
 
         for i, (label, xyz) in enumerate(data.items()):
-            add_plot(fig, axs[i], *xyz, metric_max)
+            add_plot_norm(fig, axs[i], *xyz, norm)
             axs[i].set_title(label)
             axs[i].set_xlabel("Relative acceleration dA (af-al)")
             axs[i].set_facecolor("black")
