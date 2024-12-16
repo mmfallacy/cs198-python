@@ -21,8 +21,8 @@ def compare_simulated():
         }
         
         # Clamping:
-        data["calculated"][2] = np.clip(data["calculated"][2], None, 7)
-        data["first_mttc"][2] = np.clip(data["first_mttc"][2], None, 7)
+        data["calculated"][2] = np.clip(data["calculated"][2], None, 4)
+        data["first_mttc"][2] = np.clip(data["first_mttc"][2], None, 4)
 
         fig, axs = plt.subplots(1,5, figsize=(20,5))
 
