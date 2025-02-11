@@ -80,15 +80,20 @@ def main():
         shouldPlot = True 
 
     v2Flag = includesAny(args, "--v2", "--new", "-2")
-    if meets(v2Flag, includesAny(args, "calc", "all")):
+    if meets(v2Flag, includesAny(args, "calc")):
         from src.v2.calc import run_calc
-        logger("Running MTTC calculations")
         return run_calc()
 
-    if meets(v2Flag, includesAny(args, "clean", "all")):
+    if meets(v2Flag, includesAny(args, "clean")):
         from src.v2.clean import run_clean
-        logger("Cleaning all simulation data")
         return run_clean()
+
+    if meets(v2Flag, includesAny(args, "cmp=vf")):
+        match  = list(filter(lambda arg: "metric=" in arg, args))
+        if( len(match) < 1): raise RuntimeError("Missing metric!")
+        _, metric = match[0].split("=")
+        from src.v2.compare_per_vf import run_cmp_per_vf
+        return run_cmp_per_vf(metric, showPlot=shouldPlot)
 
     if includesAny(args, "calc", "all"):
         if shouldPurge: purge_calc()
