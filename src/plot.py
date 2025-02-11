@@ -23,6 +23,11 @@ def createFormatter(X,Y,Z):
         z = np.nan if delta > THRESH else Z[idx]
         xp = X[idx]
         yp = Y[idx]
+        # xy pertains to the current point the cursor is in
+        # xyp pertains to the x and y of the nearest datapoint
+        # z pertains to the nearest Z value. 
+        # Since we cull invalid and nan cases, we set z to np.nan 
+        # when cursor is significantly far from the nearest data point
         return 'xy=({x:.5f},{y:.5f}) xyp=({xp:.5f},{yp:.5f}) z={z:.5f}'.format(x=x, y=y, xp=xp, yp=yp, z=z)
     return fmt
 
