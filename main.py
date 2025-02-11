@@ -7,6 +7,9 @@ logger = lambda *_: None
 def includesAny(list, *rest):
     return any(el in list for el in rest)
 
+def meets(*rest):
+    return all(rest)
+
 def remove(dir):
     logger(f"Purging {dir} ...")
     if not path.exists(dir):  return logger(f"Purging failed as directory does not exist. Skipping...")
@@ -74,7 +77,13 @@ def main():
         logger = print
         
     if includesAny(args, "-s", "--show-plot"):
-        shouldPlot = True
+        shouldPlot = True 
+
+    v2Flag = includesAny(args, "--v2", "--new", "-2")
+    if meets(v2Flag, includesAny(args, "calc")):
+        from src.v2.calc import run_calc
+        logger("Running MTTC calculations")
+        run_calc()
 
     if includesAny(args, "calc", "all"):
         if shouldPurge: purge_calc()
@@ -96,6 +105,7 @@ def main():
     if includesAny(args, "cmp=sim", "all", "cmp"):
         if shouldPurge: purge_cmp_sim()
         if shouldRun: cmp_sim(show=shouldPlot)
+        
 
 
 if __name__ == "__main__": main()
