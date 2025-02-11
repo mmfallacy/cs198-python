@@ -37,7 +37,7 @@ def compare_via_vf(metric):
     for j, algo in enumerate(ALGORITHMS):
       XYZ = XYZs[algo.__name__]
       add_plot_norm(fig, axs[i][j], *XYZ, norm, None)
-      axs[1][j].set_title(algo.__name__)
+      axs[0][j].set_title(algo.__name__)
       axs[i][j].set_xlabel("dA")
       axs[i][j].set_facecolor("black")
     
