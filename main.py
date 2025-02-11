@@ -80,10 +80,15 @@ def main():
         shouldPlot = True 
 
     v2Flag = includesAny(args, "--v2", "--new", "-2")
-    if meets(v2Flag, includesAny(args, "calc")):
+    if meets(v2Flag, includesAny(args, "calc", "all")):
         from src.v2.calc import run_calc
         logger("Running MTTC calculations")
-        run_calc()
+        return run_calc()
+
+    if meets(v2Flag, includesAny(args, "clean", "all")):
+        from src.v2.clean import run_clean
+        logger("Cleaning all simulation data")
+        return run_clean()
 
     if includesAny(args, "calc", "all"):
         if shouldPurge: purge_calc()
