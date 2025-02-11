@@ -11,6 +11,20 @@ from src.persist import load_points_csv
 def clip(XYZ, filter=iqrfilter):
     X, Y, Z = XYZ
     return X, Y, filter(Z)
+    
+def createFormatter(X,Y,Z):
+    THRESH = 0.1
+    def fmt(x, y):
+        # get closest point with known data
+        dist = np.linalg.norm(np.vstack([X - x, Y - y]), axis=0)
+        idx = np.argmin(dist)
+        delta = np.nanmin(dist)
+        # if distance is more than threshold, it means the cursor far in the black region.
+        z = np.nan if delta > THRESH else Z[idx]
+        xp = X[idx]
+        yp = Y[idx]
+        return 'xy=({x:.5f},{y:.5f}) xyp=({xp:.5f},{yp:.5f}) z={z:.5f}'.format(x=x, y=y, xp=xp, yp=yp, z=z)
+    return fmt
 
 def add_plot(fig, ax, X,Y,_Z, max, cbar=False):
     Z = np.clip(_Z, None, max)
@@ -22,15 +36,7 @@ def add_plot(fig, ax, X,Y,_Z, max, cbar=False):
     ax.set_xlim(-X_LIM, X_LIM)
     ax.set_ylim(-Y_LIM,Y_LIM)
 
-    def fmt(x, y):
-        # get closest point with known data
-        dist = np.linalg.norm(np.vstack([X - x, Y - y]), axis=0)
-        idx = np.argmin(dist)
-        z = Z[idx]
-        xp = X[idx]
-        yp = Y[idx]
-        return 'x={x:.5f}  y={y:.5f}  z={z:.5f}'.format(x=xp, y=yp, z=z)
-    ax.format_coord = fmt
+    ax.format_coord =  createFormatter(X,Y,Z)
 
 def add_plot_norm(fig,ax, X,Y,Z, norm, cbar=False):
     ax.scatter(X,Y, s=1, c=Z, norm=norm, cmap="RdYlGn")
@@ -42,12 +48,4 @@ def add_plot_norm(fig,ax, X,Y,Z, norm, cbar=False):
     ax.set_xlim(-X_LIM, X_LIM)
     ax.set_ylim(-Y_LIM,Y_LIM)
 
-    def fmt(x, y):
-        # get closest point with known data
-        dist = np.linalg.norm(np.vstack([X - x, Y - y]), axis=0)
-        idx = np.argmin(dist)
-        z = Z[idx]
-        xp = X[idx]
-        yp = Y[idx]
-        return 'x={x:.5f}  y={y:.5f}  z={z:.5f}'.format(x=xp, y=yp, z=z)
-    ax.format_coord = fmt
+    ax.format_coord = createFormatter(X,Y,Z)
