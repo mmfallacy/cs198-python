@@ -116,6 +116,8 @@ def main():
         # Process metrics input
         metrics = getInput(args, "metrics")
         metrics = metrics.split(",")
+        for metric in metrics:
+            assert metric in ["ave_headway", "ave_vx", "calculated", "first_mttc", "tick"]
         
         # Process vf input
         vf = getInput(args, "vf")
