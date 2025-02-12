@@ -15,6 +15,14 @@ def remove(dir):
     if not path.exists(dir):  return logger(f"Purging failed as directory does not exist. Skipping...")
     return rmtree(dir)
 
+def getInput(args, key, default=None):
+    match  = list(filter(lambda arg: f"{key}=" in arg, args))
+    if(len(match) < 1): 
+        if default is None: raise RuntimeError(f"Missing argument {key}!")
+        else: return default
+    _, value = match[0].split("=")
+    return value
+
 # Commads:
 # Purges
 def purge_calc():
@@ -89,11 +97,19 @@ def main():
         return run_clean()
 
     if meets(v2Flag, includesAny(args, "cmp=vf")):
-        match  = list(filter(lambda arg: "metric=" in arg, args))
-        if( len(match) < 1): raise RuntimeError("Missing metric!")
-        _, metric = match[0].split("=")
+        # Process metric input
+        # Metric can be any in [ave_headway, ave_vx, calculated, first_mttc, tick]
+        metric = getInput(args, "metric")
+        # Process clamp
+        # Clamp is lowest,highest (e.g. 0,7 or ,7 if lowest is None)
+        clamp = getInput(args, "clamp", default=",")
+        clamp = tuple(int(i) if i.isnumeric() else None for i in clamp.split(","))
+        assert type(clamp) is tuple and len(clamp) == 2
+        assert clamp[0] is None or type(clamp[0]) is int
+        assert clamp[1] is None or type(clamp[1]) is int
+        
         from src.v2.compare_per_vf import run_cmp_per_vf
-        return run_cmp_per_vf(metric, showPlot=shouldPlot)
+        return run_cmp_per_vf(metric, clamp, showPlot=shouldPlot)
 
     if includesAny(args, "calc", "all"):
         if shouldPurge: purge_calc()

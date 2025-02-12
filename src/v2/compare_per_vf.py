@@ -8,9 +8,9 @@ from matplotlib.colors import Normalize
 
 from src.v2.const import ALGORITHMS, VFS
 from src.persist import load_points_csv
-from src.plot import add_plot, add_plot_norm, clip
+from src.plot import add_plot_norm, clip
 
-def compare_via_vf(metric):
+def compare_via_vf(metric, clamp):
   '''
     This function displays a specific metric as follows:
                 |  honda  |  hirstgraham  |  bellarusso  |
@@ -27,11 +27,14 @@ def compare_via_vf(metric):
     
     for algo in ALGORITHMS:
       XYZ = clip(load_points_csv(f"plots/{algo.__name__}-vf={vf}/{metric}.csv")) 
-      # lowest = np.nanmin(XYZ[2], initial=lowest)
-      # highest = np.nanmax(XYZ[2], initial=highest)
+      lowest = np.nanmin(XYZ[2], initial=lowest)
+      highest = np.nanmax(XYZ[2], initial=highest)
       XYZs[algo.__name__] = XYZ
 
-    lowest, highest = 0, 3.5
+    # lowest, highest = 0, 3.5
+    if(clamp[0]): lowest = clamp[0]
+    if(clamp[1]): highest = clamp[1]
+
     norm = Normalize(vmin=lowest, vmax=highest) 
 
     for j, algo in enumerate(ALGORITHMS):
@@ -52,8 +55,8 @@ def compare_via_vf(metric):
   return fig
 
     
-def run_cmp_per_vf(metric, showPlot=False):
-  fig = compare_via_vf(metric)
+def run_cmp_per_vf(metric, clamp, showPlot=False):
+  fig = compare_via_vf(metric, clamp)
   out_dir = path.join("assets")
   makedirs(out_dir, exist_ok=True)
   out = path.join(out_dir, f"cmp=vf metric={metric}.png")
