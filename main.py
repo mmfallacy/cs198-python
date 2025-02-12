@@ -95,21 +95,33 @@ def main():
     if meets(v2Flag, includesAny(args, "clean")):
         from src.v2.clean import run_clean
         return run_clean()
+ 
+    # Process clamp
+    # Clamp is lowest,highest (e.g. 0,7 or ,7 if lowest is None)
+    clamp = getInput(args, "clamp", default=",")
+    clamp = tuple(int(i) if i.isnumeric() else None for i in clamp.split(","))
+    assert type(clamp) is tuple and len(clamp) == 2
+    assert clamp[0] is None or type(clamp[0]) is int
+    assert clamp[1] is None or type(clamp[1]) is int
 
     if meets(v2Flag, includesAny(args, "cmp=vf")):
         # Process metric input
         # Metric can be any in [ave_headway, ave_vx, calculated, first_mttc, tick]
         metric = getInput(args, "metric")
-        # Process clamp
-        # Clamp is lowest,highest (e.g. 0,7 or ,7 if lowest is None)
-        clamp = getInput(args, "clamp", default=",")
-        clamp = tuple(int(i) if i.isnumeric() else None for i in clamp.split(","))
-        assert type(clamp) is tuple and len(clamp) == 2
-        assert clamp[0] is None or type(clamp[0]) is int
-        assert clamp[1] is None or type(clamp[1]) is int
         
         from src.v2.compare_per_vf import run_cmp_per_vf
         return run_cmp_per_vf(metric, clamp, showPlot=shouldPlot)
+    
+    if meets(v2Flag, includesAny(args, "cmp=algo")):
+        # Process metrics input
+        metrics = getInput(args, "metrics")
+        metrics = metrics.split(",")
+        
+        # Process vf input
+        vf = getInput(args, "vf")
+        
+        from src.v2.compare_per_algo import run_cmp_per_algo
+        return run_cmp_per_algo(vf, metrics, clamp, showPlot=shouldPlot)
 
     if includesAny(args, "calc", "all"):
         if shouldPurge: purge_calc()
