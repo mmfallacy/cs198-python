@@ -19,7 +19,7 @@ def compare_per_algo(vf, metrics, clamp):
     bellarusso
   '''
 
-  fig, axs = plt.subplots(len(metrics), 4, figsize=(15,10), width_ratios=[1,1,1,0.1])
+  fig, axs = plt.subplots(len(metrics), 4, figsize=(15,3*len(metrics)), width_ratios=[1,1,1,0.1])
   
   for i, metric in enumerate(metrics):
     XYZs = {}
