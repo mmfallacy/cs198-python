@@ -19,9 +19,10 @@ def compare_per_algo(vf, metrics, clamp):
     bellarusso
   '''
 
-  fig, axs = plt.subplots(len(metrics), 4, figsize=(15,3*len(metrics)), width_ratios=[1,1,1,0.1])
+  n = len(metrics)
+  fig, axs = plt.subplots(4, n, figsize=(3*n,10), height_ratios=[1,1,1,0.1])
   
-  for i, metric in enumerate(metrics):
+  for j, metric in enumerate(metrics):
     XYZs = {}
     lowest, highest = np.inf, -np.inf
     
@@ -40,15 +41,16 @@ def compare_per_algo(vf, metrics, clamp):
     # Reverse RdYlGn cmap for ticks since high = bad
     if (metric == "tick"): cmap = "RdYlGn_r"
     
-    for j, algo in enumerate(ALGORITHMS):
+    for i, algo in enumerate(ALGORITHMS):
       XYZ = XYZs[algo.__name__]
       add_plot_norm(fig, axs[i][j], *XYZ, norm, cmap=cmap)
-      axs[i][0].set_ylabel(f"dV {metric}")
-      axs[0][j].set_title(algo.__name__)
+      axs[i][0].set_ylabel(f"dV {algo.__name__}")
       axs[i][j].set_xlabel("dA")
       axs[i][j].set_facecolor("black")
-      sm = ScalarMappable(cmap=cmap, norm=norm)
-      fig.colorbar(sm, cax=axs[i][-1])
+
+    axs[0][j].set_title(metric)
+    sm = ScalarMappable(cmap=cmap, norm=norm)
+    fig.colorbar(sm, cax=axs[-1][j], orientation='horizontal')
       
     
     
