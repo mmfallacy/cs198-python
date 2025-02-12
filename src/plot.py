@@ -31,10 +31,10 @@ def createFormatter(X,Y,Z):
         return 'xy=({x:.5f},{y:.5f}) xyp=({xp:.5f},{yp:.5f}) z={z:.5f}'.format(x=x, y=y, xp=xp, yp=yp, z=z)
     return fmt
 
-def add_plot(fig, ax, X,Y,_Z, max, cbar=False):
+def add_plot(fig, ax, X,Y,_Z, max, cmap="RdYlGn", cbar=False):
     Z = np.clip(_Z, None, max)
-    ax.scatter(X,Y, s=1, c=Z, cmap="RdYlGn")
-    sm = ScalarMappable(cmap='RdYlGn', norm=Normalize(vmin=np.nanmin(Z), vmax=np.nanmax(Z)))
+    ax.scatter(X,Y, s=1, c=Z, cmap=cmap)
+    sm = ScalarMappable(cmap=cmap, norm=Normalize(vmin=np.nanmin(Z), vmax=np.nanmax(Z)))
 
     if(cbar): fig.colorbar(sm, ax=ax)
     ax.set_facecolor("black")
@@ -43,11 +43,11 @@ def add_plot(fig, ax, X,Y,_Z, max, cbar=False):
 
     ax.format_coord =  createFormatter(X,Y,Z)
 
-def add_plot_norm(fig,ax, X,Y,Z, norm, cbar=False):
-    ax.scatter(X,Y, s=1, c=Z, norm=norm, cmap="RdYlGn")
+def add_plot_norm(fig,ax, X,Y,Z, norm, cmap="RdYlGn", cbar=False):
+    ax.scatter(X,Y, s=1, c=Z, norm=norm, cmap=cmap)
     ax.grid(True)
 
-    sm = ScalarMappable(cmap='RdYlGn', norm=norm)
+    sm = ScalarMappable(cmap=cmap, norm=norm)
     if(cbar): fig.colorbar(sm, ax=ax)
     ax.set_facecolor("black")
     ax.set_xlim(-X_LIM, X_LIM)

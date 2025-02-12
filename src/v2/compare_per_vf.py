@@ -20,6 +20,10 @@ def compare_via_vf(metric, clamp):
   '''
 
   fig, axs = plt.subplots(3, 4, figsize=(15,10), width_ratios=[1,1,1,0.1])
+
+  cmap = "RdYlGn"
+  # Reverse RdYlGn cmap for ticks since high = bad
+  if (metric == "tick"): cmap = "RdYlGn_r"
   
   for i, vf in enumerate(VFS):
     XYZs = {}
@@ -39,14 +43,16 @@ def compare_via_vf(metric, clamp):
 
     for j, algo in enumerate(ALGORITHMS):
       XYZ = XYZs[algo.__name__]
-      add_plot_norm(fig, axs[i][j], *XYZ, norm, None)
+      add_plot_norm(fig, axs[i][j], *XYZ, norm, cmap=cmap)
       axs[0][j].set_title(algo.__name__)
       axs[i][j].set_xlabel("dA")
       axs[i][j].set_facecolor("black")
     
     
     axs[i][0].set_ylabel(f"dV vf={vf}")
-    sm = ScalarMappable(cmap="RdYlGn", norm=norm)
+    
+
+    sm = ScalarMappable(cmap=cmap, norm=norm)
     fig.colorbar(sm, cax=axs[i][3])
     
   fig.suptitle(f"algo vf comparison (metric={metric})")
