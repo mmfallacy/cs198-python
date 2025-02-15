@@ -14,3 +14,7 @@ calculated/
 cleaned/
 assets/
 plots/
+
+# Dev environment
+.direnv/
+.env
