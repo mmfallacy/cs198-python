@@ -25,7 +25,7 @@ def load_simulated(target):
         # Skip impossible cases
         if (row["state_first_mttc"] <= 0): continue
         # Skip cases where FV average velocity went negative
-        if (row["state_FV_ave_vx"] < 0): continue
+        # if (row["state_FV_ave_vx"] < 0): continue
         
         Y.append(row["params_FV_vx"] - row["params_LV_vx"])
         X.append(row["params_FV_ax"] - row["params_LV_ax"])
