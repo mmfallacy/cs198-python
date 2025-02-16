@@ -55,7 +55,7 @@ def compare_per_algo(vf, metrics, clamp):
     
     
   metstr = ",".join(metrics)
-  fig.suptitle(f"algo comparison for {metstr}")
+  fig.suptitle(f"vf={vf} algo comparison for {metstr}")
   fig.tight_layout()
   
   return fig
