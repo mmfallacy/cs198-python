@@ -61,6 +61,8 @@ def add_plot_norm(fig,ax, X,Y,Z, norm, cmap="RdYlGn", cbar=False):
 
     ax.format_coord = createFormatter(X,Y,Z)
     
+    # Sadly, this does not exactly match the displayed formatted string on the lower right of the figure.
+    # This is due to the fact that event.xdata and event.ydata differ from the parameters received in format_coord
     def onclick(event):
         if event.xdata is not None and event.ydata is not None: pyperclip.copy(ax.format_coord(event.xdata, event.ydata))
 
