@@ -29,7 +29,7 @@ def createFormatter(X,Y,Z):
         # z pertains to the nearest Z value. 
         # Since we cull invalid and nan cases, we set z to np.nan 
         # when cursor is significantly far from the nearest data point
-        return 'xy=({x:.5f},{y:.5f}) xyp=({xp:.5f},{yp:.5f}) z={z:.5f}'.format(x=x, y=y, xp=xp, yp=yp, z=z)
+        return 'xy=({x:.5f}, {y:.5f}) xyp=({xp:.5f}, {yp:.5f}) z={z:.5f}'.format(x=x, y=y, xp=xp, yp=yp, z=z)
     return fmt
 
 def add_plot(fig, ax, X,Y,_Z, max, cmap="RdYlGn", cbar=False):
