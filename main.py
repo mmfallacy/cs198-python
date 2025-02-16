@@ -108,7 +108,7 @@ def main():
         # Process metric input
         # Metric can be any in [ave_headway, ave_vx, calculated, first_mttc, tick]
         metric = getInput(args, "metric")
-        assert metric in ["ave_headway", "ave_vx", "calculated", "first_mttc", "tick"]
+        assert metric in ["ave_headway", "ave_vx", "calculated", "first_mttc", "tick", "seconds"]
         
         from src.v2.compare_per_vf import run_cmp_per_vf
         return run_cmp_per_vf(metric, clamp, showPlot=shouldPlot)
@@ -118,7 +118,7 @@ def main():
         metrics = getInput(args, "metrics")
         metrics = metrics.split(",")
         for metric in metrics:
-            assert metric in ["ave_headway", "ave_vx", "calculated", "first_mttc", "tick"]
+            assert metric in ["ave_headway", "ave_vx", "calculated", "first_mttc", "tick", "seconds"]
         
         # Process vf input
         vf = getInput(args, "vf")

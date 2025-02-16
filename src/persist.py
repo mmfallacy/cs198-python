@@ -1,6 +1,8 @@
 from numpy import asarray
 import json
 
+from src.const import SIMULATION_STATE_TPS
+
 def load_simulated(target):
     # Note: SIMULATION_TPS_RUN should be set equal to the simulator's TPS parameter.
     # By default the simulator runs the simulations in 120 ticks per second.
@@ -16,6 +18,7 @@ def load_simulated(target):
         "first_mttc": [],
         "ave_headway": [],
         "tick": [],
+        "seconds": [],
         "ave_vx": [],
     }
 
@@ -33,6 +36,7 @@ def load_simulated(target):
         Z["first_mttc"].append(row["state_first_mttc"])
         Z["ave_headway"].append(row["state_ave_headway"])
         Z["tick"].append(row["state_tick"])
+        Z["seconds"].append(row["state_tick"]/SIMULATION_STATE_TPS)
         Z["ave_vx"].append(row["state_FV_ave_vx"])
         
     return X, Y, Z

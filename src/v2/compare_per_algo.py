@@ -39,7 +39,7 @@ def compare_per_algo(vf, metrics, clamp):
 
     cmap = "RdYlGn"
     # Reverse RdYlGn cmap for ticks since high = bad
-    if (metric == "tick"): cmap = "RdYlGn_r"
+    if (metric in ["tick", "seconds"]): cmap = "RdYlGn_r"
     
     for i, algo in enumerate(ALGORITHMS):
       XYZ = XYZs[algo.__name__]
