@@ -65,7 +65,7 @@ def run_cmp_per_algo(vf, metrics, clamp, showPlot=False):
   out_dir = path.join("assets")
   makedirs(out_dir, exist_ok=True)
   metstr = ",".join(metrics)
-  out = path.join(out_dir, f"cmp=algo metrics={metstr}.png")
+  out = path.join(out_dir, f"cmp=algo vf={vf} metrics={metstr}.png")
 
   fig.savefig(out)
   if showPlot: plt.show()
