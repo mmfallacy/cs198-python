@@ -3,7 +3,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import Normalize
 from matplotlib.cm import ScalarMappable
-import pyperclip
 
 from src.const import ALGORITHMS, VFS, X_LIM, Y_LIM
 from src.lib import iqrfilter, zscorefilter
@@ -44,11 +43,6 @@ def add_plot(fig, ax, X,Y,_Z, max, cmap="RdYlGn", cbar=False):
 
     ax.format_coord =  createFormatter(X,Y,Z)
 
-    def onclick(event):
-        if event.xdata is not None and event.ydata is not None: pyperclip.copy(ax.format_coord(event.xdata, event.ydata))
-
-    fig.canvas.mpl_connect("button_press_event", onclick)
-
 def add_plot_norm(fig,ax, X,Y,Z, norm, cmap="RdYlGn", cbar=False):
     ax.scatter(X,Y, s=1, c=Z, norm=norm, cmap=cmap)
     ax.grid(True)
@@ -59,12 +53,4 @@ def add_plot_norm(fig,ax, X,Y,Z, norm, cmap="RdYlGn", cbar=False):
     ax.set_xlim(-X_LIM, X_LIM)
     ax.set_ylim(-Y_LIM,Y_LIM)
 
-    ax.format_coord = createFormatter(X,Y,Z)
-    
-    # Sadly, this does not exactly match the displayed formatted string on the lower right of the figure.
-    # This is due to the fact that event.xdata and event.ydata differ from the parameters received in format_coord
-    def onclick(event):
-        if event.xdata is not None and event.ydata is not None: pyperclip.copy(ax.format_coord(event.xdata, event.ydata))
-
-    fig.canvas.mpl_connect("button_press_event", onclick)
-    
+    ax.format_coord = createFormatter(X,Y,Z) 

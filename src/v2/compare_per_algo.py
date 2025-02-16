@@ -5,6 +5,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib.cm import ScalarMappable
 from matplotlib.colors import Normalize
+import pyperclip
 
 from src.v2.const import ALGORITHMS, VFS
 from src.persist import load_points_csv
@@ -57,6 +58,15 @@ def compare_per_algo(vf, metrics, clamp):
   metstr = ",".join(metrics)
   fig.suptitle(f"vf={vf} algo comparison for {metstr}")
   fig.tight_layout()
+
+  # Sadly, this does not exactly match the displayed formatted string on the lower right of the figure.
+  # This is due to the fact that event.xdata and event.ydata differ from the parameters received in format_coord
+  def onclick(event):
+      if event.inaxes is not None:
+          ax = event.inaxes
+          pyperclip.copy(ax.format_coord(event.xdata, event.ydata))
+
+  fig.canvas.mpl_connect("button_press_event", onclick)
   
   return fig
 
