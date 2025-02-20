@@ -1,6 +1,7 @@
 from sys import argv
 from shutil import rmtree
 from os import path
+from src.const import ALGORITHMS
 
 logger = lambda *_: None
 
@@ -125,6 +126,21 @@ def main():
         
         from src.v2.compare_per_algo import run_cmp_per_algo
         return run_cmp_per_algo(vf, metrics, clamp, showPlot=shouldPlot)
+
+    if meets(v2Flag, includesAny(args, "show=vf")):
+        # Process metric input
+        metric = getInput(args, "metric")
+        assert metric in ["ave_headway", "ave_vx", "calculated", "first_mttc", "tick", "seconds"]
+
+        # Process algos input
+        algos = getInput(args, "algos")
+        algos = algos.split(",")
+        for algo in algos:
+            assert algo in map(lambda fn: fn.__name__,ALGORITHMS)
+         
+        from src.v2.show_vf import run_show_vf
+        return run_show_vf(algos, metric, clamp, showPlot=shouldPlot)
+
 
     if includesAny(args, "calc", "all"):
         if shouldPurge: purge_calc()
