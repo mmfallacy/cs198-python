@@ -77,7 +77,8 @@ def run_show_vf(algos, metric, clamp, showPlot=False):
   fig = show_vf(algos, metric, clamp)
   out_dir = path.join("assets")
   makedirs(out_dir, exist_ok=True)
-  out = path.join(out_dir, f"show=vf metric={metric}.png")
+  algosstr = ",".join(algos)
+  out = path.join(out_dir, f"show=vf metric={metric} algos={algosstr}.png")
 
   fig.savefig(out)
   if showPlot: plt.show()
