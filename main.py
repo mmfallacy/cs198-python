@@ -127,6 +127,20 @@ def main():
         from src.v2.compare_per_metric import run_cmp_per_metric 
         return run_cmp_per_metric(vf, metrics, clamp, showPlot=shouldPlot)
 
+    if meets(v2Flag, includesAny(args, "cmp=algo")):
+        # Process metrics input
+        metrics = getInput(args, "metrics")
+        metrics = metrics.split(",")
+        for metric in metrics:
+            # Only calculated and first_mttc are similar metrics values.
+            assert metric in ["calculated", "first_mttc"]
+        
+        # Process vf input
+        vf = getInput(args, "vf")
+        
+        from src.v2.compare_per_algo import run_cmp_per_algo
+        return run_cmp_per_algo(vf, metrics, clamp, showPlot=shouldPlot)
+        
     if meets(v2Flag, includesAny(args, "show=vf")):
         # Process metric input
         metric = getInput(args, "metric")
