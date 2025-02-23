@@ -11,7 +11,7 @@ from src.v2.const import ALGORITHMS, VFS
 from src.persist import load_points_csv
 from src.plot import add_plot_norm, clip
 
-def compare_per_algo(vf, metrics, clamp):
+def compare_per_metric(vf, metrics, clamp):
   '''
     This function displays a specific metric as follows:
                 |  metric[0]  |  ...  |  metric[-1]  |
@@ -70,8 +70,8 @@ def compare_per_algo(vf, metrics, clamp):
   
   return fig
 
-def run_cmp_per_algo(vf, metrics, clamp, showPlot=False):
-  fig = compare_per_algo(vf, metrics, clamp)
+def run_cmp_per_metric(vf, metrics, clamp, showPlot=False):
+  fig = compare_per_metric(vf, metrics, clamp)
   out_dir = path.join("assets")
   makedirs(out_dir, exist_ok=True)
   metstr = ",".join(metrics)

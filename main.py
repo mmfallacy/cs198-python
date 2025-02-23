@@ -114,7 +114,7 @@ def main():
         from src.v2.compare_per_vf import run_cmp_per_vf
         return run_cmp_per_vf(metric, clamp, showPlot=shouldPlot)
     
-    if meets(v2Flag, includesAny(args, "cmp=algo")):
+    if meets(v2Flag, includesAny(args, "cmp=metric")):
         # Process metrics input
         metrics = getInput(args, "metrics")
         metrics = metrics.split(",")
@@ -124,8 +124,8 @@ def main():
         # Process vf input
         vf = getInput(args, "vf")
         
-        from src.v2.compare_per_algo import run_cmp_per_algo
-        return run_cmp_per_algo(vf, metrics, clamp, showPlot=shouldPlot)
+        from src.v2.compare_per_metric import run_cmp_per_metric 
+        return run_cmp_per_metric(vf, metrics, clamp, showPlot=shouldPlot)
 
     if meets(v2Flag, includesAny(args, "show=vf")):
         # Process metric input
