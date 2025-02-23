@@ -56,7 +56,7 @@ def compare_per_metric(vf, metrics, clamp):
     
     
   metstr = ",".join(metrics)
-  fig.suptitle(f"vf={vf} algo comparison for {metstr}")
+  fig.suptitle(f"vf={vf} per metric comparison for {metstr}")
   fig.tight_layout()
 
   # Sadly, this does not exactly match the displayed formatted string on the lower right of the figure.
@@ -75,7 +75,7 @@ def run_cmp_per_metric(vf, metrics, clamp, showPlot=False):
   out_dir = path.join("assets")
   makedirs(out_dir, exist_ok=True)
   metstr = ",".join(metrics)
-  out = path.join(out_dir, f"cmp=algo vf={vf} metrics={metstr}.png")
+  out = path.join(out_dir, f"cmp=metric vf={vf} metrics={metstr}.png")
 
   fig.savefig(out)
   if showPlot: plt.show()
