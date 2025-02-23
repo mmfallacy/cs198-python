@@ -48,8 +48,8 @@ def compare_per_algo(vf, metrics, clamp):
       axs[i][0].set_ylabel(f"dV {algo.__name__}")
       axs[i][j].set_xlabel("dA")
       axs[i][j].set_facecolor("black")
+      axs[0][j].set_title(metric)
 
-    axs[0][j].set_title(metric)
     sm = ScalarMappable(cmap=cmap, norm=norm)
     fig.colorbar(sm, cax=axs[i][-1])
       
