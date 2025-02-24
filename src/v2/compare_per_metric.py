@@ -28,11 +28,11 @@ def compare_per_metric(vf, metrics, clamp):
     lowest, highest = np.inf, -np.inf
     
     for algo in ALGORITHMS:
-      XYZ = clip(load_points_csv(f"plots/{algo.__name__}-vf={vf}/{metric}.csv"))
-      lowest = np.nanmin(XYZ[2], initial=lowest)
-      highest = np.nanmax(XYZ[2], initial=highest)
-      XYZs[algo.__name__] = XYZ
-         
+      XYZs[algo.__name__] = load_points_csv(f"plots/{algo.__name__}-vf={vf}/{metric}.csv")
+       
+    lowest = 0
+    highest = np.nanpercentile(np.concat(list(Z for X,Y,Z in XYZs.values())), 95)
+
     if(clamp[0]): lowest = clamp[0]
     if(clamp[1]): highest = clamp[1]
 
