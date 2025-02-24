@@ -168,6 +168,19 @@ def main():
         from src.v2.show_zdist import run_show_zdist
         return run_show_zdist(vf, metrics, showPlot=shouldPlot)
 
+    if meets(v2Flag, includesAny(args, "show=zdist")):
+        # Process metrics input
+        metrics = getInput(args, "metrics")
+        metrics = metrics.split(",")
+        for metric in metrics:
+            assert metric in ["ave_headway", "ave_vx", "calculated", "first_mttc", "tick", "seconds"]
+        
+        # Process vf input
+        vf = getInput(args, "vf")
+        
+        from src.v2.show_uzdist import run_show_zdist
+        return run_show_zdist(vf, metrics, showPlot=shouldPlot)
+
 
     if includesAny(args, "calc", "all"):
         if shouldPurge: purge_calc()
