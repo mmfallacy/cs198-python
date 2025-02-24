@@ -168,7 +168,7 @@ def main():
         from src.v2.show_zdist import run_show_zdist
         return run_show_zdist(vf, metrics, showPlot=shouldPlot)
 
-    if meets(v2Flag, includesAny(args, "show=zdist")):
+    if meets(v2Flag, includesAny(args, "show=uzdist")):
         # Process metrics input
         metrics = getInput(args, "metrics")
         metrics = metrics.split(",")
