@@ -1,6 +1,7 @@
 
 from os import makedirs, path
 from matplotlib import pyplot as plt
+import numpy as np
 from src.const import ALGORITHMS
 from src.persist import load_points_csv
 
@@ -17,13 +18,31 @@ def show_zdist(vf, metrics):
   n = len(metrics)
   fig, axs = plt.subplots(3, n, figsize=(3*n, 10))
   
+  percentiles = {
+    99: "purple",
+    # 98: "green",
+    # 97: "yellow",
+    95: "red",
+    90: "black"
+  }
+  quartiles = {
+    25: "cyan",
+    75: "orange",
+  }
+
     
   for i, algo in enumerate(ALGORITHMS):
     for j, metric in enumerate(metrics):
       _,_,Z = load_points_csv(f"plots/{algo.__name__}-vf={vf}/{metric}.csv")
+
+      clippedZ = np.clip(Z, 0, None)
       
       ax = axs[i][j]
-      ax.hist(Z, bins=200)
+      ax.hist(clippedZ, bins=100)
+      for percentile, color in percentiles.items():
+        ax.axvline(x=np.nanpercentile(Z, percentile), color=color, linestyle="dashed")
+      for quartile, color in quartiles.items():
+        ax.axvline(x=np.nanpercentile(Z, quartile), color=color)
       ax.set_xlabel(metric)
 
     axs[i][0].set_ylabel(algo.__name__)
