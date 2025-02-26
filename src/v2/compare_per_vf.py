@@ -32,11 +32,13 @@ def compare_via_vf(metric, clamp):
     
     for algo in ALGORITHMS:
       XYZ = clip(load_points_csv(f"plots/{algo.__name__}-vf={vf}/{metric}.csv")) 
-      lowest = np.nanmin(XYZ[2], initial=lowest)
-      highest = np.nanmax(XYZ[2], initial=highest)
-      XYZs[algo.__name__] = XYZ
 
-    # lowest, highest = 0, 3.5
+    lowest = 0 
+    percentile = 99
+    if (metric == "calculated"): percentile = 95
+
+    highest = np.nanpercentile(np.concat(list(Z for X,Y,Z in XYZs.values())), percentile)
+
     if(clamp[0]): lowest = clamp[0]
     if(clamp[1]): highest = clamp[1]
 
