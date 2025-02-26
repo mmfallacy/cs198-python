@@ -24,14 +24,14 @@ def compare_via_vf(metric, clamp):
 
   cmap = "RdYlGn"
   # Reverse RdYlGn cmap for ticks since high = bad
-  if (metric == "tick"): cmap = "RdYlGn_r"
+  if (metric in ["tick", "seconds"]): cmap = "RdYlGn_r"
   
   for i, vf in enumerate(VFS):
     XYZs = {}
     lowest, highest = float("+inf"), float("-inf")
     
     for algo in ALGORITHMS:
-      XYZ = clip(load_points_csv(f"plots/{algo.__name__}-vf={vf}/{metric}.csv")) 
+      XYZs[algo.__name__]= clip(load_points_csv(f"plots/{algo.__name__}-vf={vf}/{metric}.csv")) 
 
     lowest = 0 
     percentile = 99
