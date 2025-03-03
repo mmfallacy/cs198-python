@@ -180,6 +180,24 @@ def main():
         
         from src.v2.show_uzdist import run_show_zdist
         return run_show_zdist(vf, metrics, showPlot=shouldPlot)
+        
+    if meets(v2Flag, includesAny(args, "compute")):
+        # Process algo input
+        algos = getInput(args, "algos")
+        algos = algos.split(",")
+        for algo in algos:
+            assert algo in map(lambda fn: fn.__name__,ALGORITHMS)
+        # Process xy input
+        xy = getInput(args, "xy")
+        assert "," in xy
+        dA, dV, *rest = xy.split(",")
+        assert len(rest) == 0
+
+        # Process vf input
+        vf = getInput(args, "vf")
+        
+        from src.v2.compute import run_compute
+        return run_compute(dA, dV, vf, algos)
 
 
     if includesAny(args, "calc", "all"):
