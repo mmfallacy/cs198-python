@@ -187,17 +187,25 @@ def main():
         algos = algos.split(",")
         for algo in algos:
             assert algo in map(lambda fn: fn.__name__,ALGORITHMS)
-        # Process xy input
-        xy = getInput(args, "xy")
-        assert "," in xy
-        dA, dV, *rest = xy.split(",")
-        assert len(rest) == 0
+            
+        # Process dv input
+        dV = getInput(args, "dV")
+        dV = dV.split(",")
+        
+        # Process dA
+        dA = getInput(args, "dA")
+        dA = dA.split(",")
 
         # Process vf input
         vf = getInput(args, "vf")
         
         from src.v2.compute import run_compute
-        return run_compute(dA, dV, vf, algos)
+        for x in dA:
+            for y in dV:
+                print(f"dA={x}, dV={y}")
+                run_compute(x, y, vf, algos)
+            print()
+        return
 
 
     if includesAny(args, "calc", "all"):
