@@ -11,6 +11,24 @@ from src.v2.const import ALGORITHMS, VFS
 from src.persist import load_points_csv
 from src.plot import add_plot_norm, clip
 
+def getMinMax(X, Y, Z): 
+  min = np.nanargmin(Z)
+  max = np.nanargmax(Z)
+  
+  return (X[min], Y[min], Z[min]), (X[max], Y[max], Z[max])
+
+def prune(metric, X,Y,Z):
+  if metric=="tick":
+    mask = Z < 100_000
+  elif metric == "seconds":
+    mask = Z < 833.33
+  elif metric == "ave_vx":
+    mask = Z >= 0
+  else:
+    return X, Y, Z
+    
+  return X[mask], Y[mask], Z[mask]
+
 def compare_per_metric(vf, metrics, clamp):
   '''
     This function displays a specific metric as follows:
@@ -28,12 +46,20 @@ def compare_per_metric(vf, metrics, clamp):
     lowest, highest = np.inf, -np.inf
     
     for algo in ALGORITHMS:
-      XYZs[algo.__name__] = load_points_csv(f"plots/{algo.__name__}-vf={vf}/{metric}.csv")
+      XYZ = load_points_csv(f"plots/{algo.__name__}-vf={vf}/{metric}.csv")
+      min, max = getMinMax(*XYZ)
+      fmt = "dA = {0:.2f}\ndV = {1:.2f}\n{2:.2f}"
+      print(metric, algo.__name__, "Minimum")
+      print(fmt.format(*min))
+      print(metric, algo.__name__, "Maximum")
+      print(fmt.format(*max))
+      XYZs[algo.__name__] = XYZ
        
     lowest = 0
     
     percentile = 99
     if (metric == "calculated"): percentile = 95
+    if (metric in ["tick", "seconds"]): percentile = 70
 
     highest = np.nanpercentile(np.concat(list(Z for X,Y,Z in XYZs.values())), percentile)
 

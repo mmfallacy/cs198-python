@@ -1,4 +1,4 @@
-from numpy import asarray
+from numpy import asarray, nan
 import json
 
 from src.const import SIMULATION_STATE_TPS
@@ -26,14 +26,15 @@ def load_simulated(target):
         # Skip colliding cases
         if (row["state_collision"] == True): continue
         # Skip impossible cases
-        if (row["state_first_mttc"] <= 0): continue
+        if (row["state_first_mttc"] < 0): continue
         # Skip cases where FV average velocity went negative
         # if (row["state_FV_ave_vx"] < 0): continue
         
         Y.append(row["params_FV_vx"] - row["params_LV_vx"])
         X.append(row["params_FV_ax"] - row["params_LV_ax"])
         
-        Z["first_mttc"].append(row["state_first_mttc"])
+        if row["state_first_mttc"] == 0: Z["first_mttc"].append(nan)
+        else: Z["first_mttc"].append(row["state_first_mttc"])
         Z["ave_headway"].append(row["state_ave_headway"])
         Z["tick"].append(row["state_tick"])
         Z["seconds"].append(row["state_tick"]/SIMULATION_STATE_TPS)
