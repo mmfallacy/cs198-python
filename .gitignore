@@ -13,6 +13,8 @@ wheels/
 calculated/
 cleaned/
 assets/
+# assets symlink
+assets
 plots/
 
 # Dev environment
