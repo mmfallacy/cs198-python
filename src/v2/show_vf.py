@@ -11,22 +11,22 @@ from src.v2.const import ALGORITHMS, VFS
 from src.persist import load_points_csv
 from src.plot import add_plot_norm, clip
 
-def show_vf(algos, metric, clamp):
+def show_vf(algo, metrics, clamp):
   '''
     This function displays a specific metric as follows. 
-                |  algo for algo in algos |
+                |  metric for metric in metric |
     vf = 5
     vf = 11
     vf = 27
   '''
 
-  fig, axs = plt.subplots(len(VFS)+1, len(algos), figsize=(4*len(algos),10), height_ratios=[1,1,1,0.1], squeeze=False)
+  fig, axs = plt.subplots(len(VFS)+1, len(metrics), figsize=(4*len(metrics),10), height_ratios=[1,1,1,0.1], squeeze=False)
 
-  cmap = "RdYlGn"
-  # Reverse RdYlGn cmap for ticks since high = bad
-  if (metric in ["tick", "seconds"]): cmap = "RdYlGn_r"
+  for j, metric in enumerate(metrics):
 
-  for j, algo in enumerate(algos):
+    cmap = "RdYlGn"
+    # Reverse RdYlGn cmap for ticks since high = bad
+    if (metric in ["tick", "seconds"]): cmap = "RdYlGn_r"
     XYZs = {}
     lowest, highest = float("+inf"), float("-inf")
 
@@ -48,7 +48,7 @@ def show_vf(algos, metric, clamp):
     for i, vf in enumerate(VFS):
       XYZ = XYZs[vf]
       add_plot_norm(fig, axs[i][j], *XYZ, norm, cmap=cmap)
-      axs[0][j].set_title(algo)
+      axs[0][j].set_title(metric)
       axs[i][0].set_ylabel(f"dV vf={vf}")
       axs[i][j].set_xlabel("dA")
       axs[i][j].set_facecolor("black")
@@ -60,8 +60,8 @@ def show_vf(algos, metric, clamp):
     fig.colorbar(sm, cax=axs[-1][j], orientation='horizontal')
   
     
-  algosstr = ",".join(algos)
-  fig.suptitle(f"vf comp for {algosstr}\n(metric={metric})")
+  metricsstr = ",".join(metrics)
+  fig.suptitle(f"vf comp for {metricsstr} for {algo}")
   fig.tight_layout()
   
   # Sadly, this does not exactly match the displayed formatted string on the lower right of the figure.
@@ -76,12 +76,12 @@ def show_vf(algos, metric, clamp):
   return fig
 
     
-def run_show_vf(algos, metric, clamp, showPlot=False):
-  fig = show_vf(algos, metric, clamp)
+def run_show_vf(algo, metrics, clamp, showPlot=False):
+  fig = show_vf(algo, metrics, clamp)
   out_dir = path.join("assets")
   makedirs(out_dir, exist_ok=True)
-  algosstr = ",".join(algos)
-  out = path.join(out_dir, f"show=vf metric={metric} algos={algosstr}.png")
+  metricsstr = ",".join(metrics)
+  out = path.join(out_dir, f"show=vf metric={metricsstr} algo={algo}.png")
 
   fig.savefig(out)
   if showPlot: plt.show()

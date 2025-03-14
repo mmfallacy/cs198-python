@@ -142,18 +142,18 @@ def main():
         return run_cmp_per_algo(vf, metrics, clamp, showPlot=shouldPlot)
         
     if meets(v2Flag, includesAny(args, "show=vf")):
-        # Process metric input
-        metric = getInput(args, "metric")
-        assert metric in ["ave_headway", "ave_vx", "calculated", "first_mttc", "tick", "seconds"]
+        # Process metrics input
+        metrics = getInput(args, "metrics")
+        metrics = metrics.split(",")
+        for metric in metrics:
+            # Only calculated and first_mttc are similar metrics values.
+            assert metric in ["ave_headway", "ave_vx", "calculated", "first_mttc", "tick", "seconds"]
 
-        # Process algos input
-        algos = getInput(args, "algos")
-        algos = algos.split(",")
-        for algo in algos:
-            assert algo in map(lambda fn: fn.__name__,ALGORITHMS)
+        # Process algo input
+        algo = getInput(args, "algo")
          
         from src.v2.show_vf import run_show_vf
-        return run_show_vf(algos, metric, clamp, showPlot=shouldPlot)
+        return run_show_vf(algo, metrics, clamp, showPlot=shouldPlot)
 
     if meets(v2Flag, includesAny(args, "show=zdist")):
         # Process metrics input
