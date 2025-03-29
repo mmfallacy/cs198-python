@@ -31,7 +31,7 @@ def show_vf(algo, metrics, clamp):
     lowest, highest = float("+inf"), float("-inf")
 
     for vf in VFS:
-      XYZs[vf]= clip(load_points_csv(f"plots/{algo}-vf={vf}/{metric}.csv"))
+      XYZs[vf]= load_points_csv(f"plots/{algo}-vf={vf}/{metric}.csv")
 
     lowest = 0
     
