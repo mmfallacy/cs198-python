@@ -86,3 +86,9 @@ This project is created solely for the associated thesis study. This will be arc
 
 Due to time constraints, implementation is a bit unclean. Hence, I recommend that you continue the v2 refactor and push to remove the v1 scripts after. Also, consider to use proper command line argument parsers like `clap` for better argument and flag handling. 
 
+## Acknowledgements
+This project was developed as part of my undergraduate thesis under the [Scientific Computing Laboratory](https://scl.dcs.upd.edu.ph/) of the [Department of Computer Science](https://dcs.upd.edu.ph/), [College of Engineering](https://coe.upd.edu.ph/) at the [University of the Philippines Diliman](https://upd.edu.ph/).
+
+Special thanks to [Dr. Jaymar B. Soriano](https://scl.dcs.upd.edu.ph/members/jbsoriano) for his guidance and support throughout the research.
+
+Copyright (C) 2025, Michael M. <mlmonasterial@up.edu.ph>.
