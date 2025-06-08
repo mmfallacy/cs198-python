@@ -56,6 +56,20 @@ Other scripts include:
 - Bulk compute theoretical MTTC estimate for multiple dV, dA for a specified vf: `compute` 
 
 ## How to use:
+### Prerequisites
+
+<details>
+<summary>- Running through `nix`</summary>
+- Run `nix develop` to bootstrap a shell that includes `python310` and `uv`
+> You can also use this devShell (`./nix/devShell.nix`) as your development environment!
+</details>
+
+<details>
+<summary>- Other systems</summary>
+- install Python >3.10 and [`astral-sh/uv`](https://docs.astral.sh/uv/getting-started/installation/)
+</details>
+
+### Running
 
 Refer to `main.py` for valid commands and the arguments they require. Command invocations are always prefixed by 
 `uv run main.py <args>` as we use `uv` to run the project's entry point.
