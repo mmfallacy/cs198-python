@@ -60,13 +60,17 @@ Other scripts include:
 
 <details>
 <summary>- Running through `nix`</summary>
+
 - Run `nix develop` to bootstrap a shell that includes `python310` and `uv`
 > You can also use this devShell (`./nix/devShell.nix`) as your development environment!
+
 </details>
 
 <details>
 <summary>- Other systems</summary>
+
 - install Python >3.10 and [`astral-sh/uv`](https://docs.astral.sh/uv/getting-started/installation/)
+
 </details>
 
 ### Running
